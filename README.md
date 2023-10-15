@@ -78,8 +78,65 @@ If the user selects option 1, the main program begins. Initially, it requests th
 
 Next, the program calculates how many numbers each process will receive and stores these counts in the array sendCounts[]. Additionally, it computes and initializes the displacements[] array (which indicates the offset of the block of elements that will be sent to each process from the starting point).
 
-### Author's note
+After initializing the local arrays `localArrayX`, the parallel computation of the mean value and the calculation of the min and max values follow. 
 
+For calculating the mean value, each process sums the elements of its `localArrayX` and sends this sum back to the root process using the `MPI_Reduce` function with `MPI_SUM`. The final result is stored in the root's variable `tot_sum`, and then the root divides this value by the size of array `X`. 
+
+For computing the minimum value, a similar procedure is followed. Each process finds the minimum value among the elements of its local array and sends it to the root process using `MPI_Reduce`. In combination with `MPI_MIN`, the process of finding the minimum value among the elements sent by processes is automated.
+
+The same approach is applied to find the maximum value as well.
+
+### Question no.1: 
+
+Having already received the mean value from the root, each process independently calculates how many values in their local data are greater (countGreater) and how many are less (countLess) than the mean value. They then send these results back to the root using MPI_Reduce, where the sums are automatically computed.
+
+The final results are stored in the root's variables, totalCountGreater and totalCountLess
+
+<p align="center">
+    <img width="50%" src="https://github.com/PaolaVlsc/MPI_ParallelComputing_CollectiveCommunication/assets/87998374/959eede0-4c99-4f18-b15b-071ac0274ee0" alt="results">
+</p>
+
+
+### Question no.2:  The variance of the elements in vector X.
+
+
+Each process calculates the sum of the square of the difference ((xi - m)^2) between the elements in their local array localArrayX. After performing these calculations, they return the result to the root process using MPI_Reduce in combination with MPI_SUM.
+
+Subsequently, the root, having already received the total numerators in the variable totalNumerators, divides it by arrayX_size and prints the final result of the variance.
+
+<p align="center">
+    <img width="50%" src="https://github.com/PaolaVlsc/MPI_ParallelComputing_CollectiveCommunication/assets/87998374/b6a54e3c-2159-44bb-8262-4c984fe86b1d" alt="results">
+</p>
+
+### Question no.3: A new vector Δ, where each element δᵢ is equal to the percentage relationship of the corresponding element (xᵢ) in vector X with the difference between the maximum and minimum values of all elements in vector X.
+
+Having already received the information about min and max from the root, each process locally creates its own `localArrayD`, where the calculations δᵢ = ((xᵢ - x_min) / (x_max - x_min)) * 100 are stored for each element of their `localArrayX`.
+
+After performing these calculations, each process sends their results to the root process using `MPI_Gather`.
+
+<p align="center">
+    <img width="50%" src="https://github.com/PaolaVlsc/MPI_ParallelComputing_CollectiveCommunication/assets/87998374/0197072c-d54c-4489-bd04-2c753d5bc23a" alt="results">
+</p>
+
+### Question no.4: The maximum value in vector Δ and the specific element xi that corresponds to it (including the position i of the element in the vector, the value of the element, and its δᵢ) is:
+
+- Maximum value in Δ: δ_max
+- Corresponding element xi: x_i
+- Position i of x_i in the vector X
+- Value of x_i: x_i
+- δᵢ of x_i: δᵢ
+
+
+By defining the `struct info` and the global variables `inmax`, `inmin`, `outmax`, and `outmin`, each process calculates the global position of its value and not its local index for the tasks at hand.
+
+<p align="center">
+    <img width="50%" src="https://github.com/PaolaVlsc/MPI_ParallelComputing_CollectiveCommunication/assets/87998374/0fb94151-a29c-4928-ba8c-38e8181fd7f3" alt="results">
+</p>
+
+
+### Author's note
+* The program was implemented using iterative menu-driven functionality.
+* The program operates correctly for cases where n is not a multiple of p (using Scatterv and Gatherv). However, it was observed that for n < p, calculations are not performed correctly.
 
 ## Contributing
 
