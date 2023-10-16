@@ -13,7 +13,7 @@ This repository provides a practical example of MPI (Message Passing Interface) 
 - [Collective Communication Operations](#collective-communication-operations)
 - [Logic](#logic-and-explanation-of-code)
 - [Contributing](#contributing)
-
+- [Extras](#extras)
 ## Introduction
 
 Collective communication is a fundamental concept in parallel and distributed computing, allowing processes to work collectively and efficiently solve complex problems. In this repository, you will find practical examples of MPI collective communication operations, including broadcast, scatter, gather, and reduce.
@@ -31,25 +31,25 @@ Before running this example, ensure you have the following prerequisites:
 1. **Clone this repository** to your local machine:
 
     ```shell
-    git clone https://github.com/your-username/MPI_Collective_Communication.git
+    git clone https://github.com/your-username/MPI_ParallelComputing_CollectiveCommunication.git
     ```
 
 2. **Navigate to the project directory**:
 
     ```shell
-    cd MPI_Collective_Communication
+    cd MPI_ParallelComputing_CollectiveCommunication
     ```
 
 3. **Compile the source code** using an MPI compiler. For example, if you're using `mpicc`:
 
     ```shell
-    mpicc mpi_collective_example.c -o mpi_collective_example
+    mpicc cs161020PV.c -o cs161020PV
     ```
 
 4. **Run the example** using the `mpiexec` command. Be sure to specify the number of processes you want to use, as needed for the specific collective communication operation:
 
     ```shell
-    mpiexec -np <num_processes> ./mpi_collective_example
+    mpiexec -np <num_processes> ./cs161020PV
     ```
 
 ## Collective Communication Operations
@@ -147,3 +147,6 @@ By defining the `struct info` and the global variables `inmax`, `inmin`, `outmax
 If you have any improvements or suggestions for this example, please feel free to open an issue or create a pull request. Contributions are welcome!
 
 This project was written by Velasco Paola.
+
+## Extras
+* Report paper in greek: [Report paper](https://github.com/PaolaVlsc/MPI_ParallelComputing_CollectiveCommunication/blob/main/cs161020_ergasia2_mpi.pdf)
