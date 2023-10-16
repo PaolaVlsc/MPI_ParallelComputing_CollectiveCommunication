@@ -11,9 +11,8 @@ This repository provides a practical example of MPI (Message Passing Interface) 
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Collective Communication Operations](#collective-communication-operations)
-- [Logic and explanation of code](#Logic-and-explanation-of-code)
+- [Logic](#logic-and-explanation-of-code)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
@@ -86,7 +85,12 @@ For computing the minimum value, a similar procedure is followed. Each process f
 
 The same approach is applied to find the maximum value as well.
 
-### Question no.1: 
+### Question no.1 : The number of elements in vector X that have values less than the mean value (m) and the number of elements greater than the mean value can be calculated as follows:
+
+1. Count the number of elements xᵢ in X such that xᵢ < m.
+2. Count the number of elements xᵢ in X such that xᵢ > m.
+
+The first count represents the elements with values less than the mean, and the second count represents the elements with values greater than the mean.
 
 Having already received the mean value from the root, each process independently calculates how many values in their local data are greater (countGreater) and how many are less (countLess) than the mean value. They then send these results back to the root using MPI_Reduce, where the sums are automatically computed.
 
